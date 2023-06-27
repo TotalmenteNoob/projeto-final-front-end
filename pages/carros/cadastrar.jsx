@@ -6,14 +6,14 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineCheck } from 'react-icons/Ai';
 import { IoMdArrowRoundBack } from 'react-icons/Io';
 import carrosValidator from '@/validator/carrosValidator';
 import { mask } from 'remask';
 
 const form = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, setValue, formState: { errors },
+    const { register, handleSubmit, formState: { errors },
     } = useForm();
 
     function salvar(dados) {
@@ -22,26 +22,6 @@ const form = () => {
         window.localStorage.setItem("carros", JSON.stringify(carros));
         push("/carros/");
     }
-
-    function gerarMascara(campo) {
-        const mascaras = {
-            cpf: "999.999.999-99",
-            telefone: "(99) 9999-9999",
-            cep: "99999-999",
-            // Adicione outras máscaras aqui, se necessário
-        };
-
-        return mascaras[campo] || "";
-    }
-
-    function handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        const mascara = gerarMascara(name);
-
-        setValue(name, mask(value, mascara));
-    }
-
 
     return (
         <Pagina title='Cadastrar carros'>
@@ -57,7 +37,7 @@ const form = () => {
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="modelo">
                             <Form.Label>Modelo:</Form.Label>
-                            <Form.Control isInvalid={errors.modelo} type="text" {...register("modelo", carrosValidator.modelo)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.modelo} type="text" {...register("modelo", carrosValidator.modelo)}/>
                             {errors.modelo && <small>{errors.modelo.message}</small>}
                         </Form.Group>
                     </Row>
@@ -65,7 +45,7 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="quilometragem">
                             <Form.Label>Quilometragem:</Form.Label>
-                            <Form.Control isInvalid={errors.quilometragem} type="text" {...register("quilometragem", carrosValidator.quilometragem)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.quilometragem} type="text" {...register("quilometragem", carrosValidator.quilometragem)} />
                             {errors.quilometragem && <small>{errors.quilometragem.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="tipocarro">

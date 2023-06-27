@@ -42,48 +42,23 @@ export default function App() {
               </p>
             </Col>
 
-            <Col md={2} lg={2} xl={2} className="mx-auto ">
-              <h6 className="text-uppercase fw-bold">Products</h6>
-              <p>
-                <a href="#" className="text-reset">
-                  Angular
-                </a>
-              </p>
-              <p>
-                <a href="#" className="text-reset">
-                  React
-                </a>
-              </p>
-              <p>
-                <a href="#" className="text-reset">
-                  Vue
-                </a>
-              </p>
-
-            </Col>
-
             <Col md={3} lg={2} xl={2} className="mx-auto ">
-              <h6 className="text-uppercase fw-bold ">Useful links</h6>
+              <h6 className="text-uppercase fw-bold ">Links úteis</h6>
               <p>
-                <a href="#" className="text-reset">
-                  Pricing
+                <a href="/" className="text-reset">
+                  Home
                 </a>
               </p>
               <p>
-                <a href="#" className="text-reset">
-                  Settings
-                </a>
-              </p>
-              <p>
-                <a href="#" className="text-reset">
-                  Orders
+                <a href="/sobre" className="text-reset">
+                  Sobre-nós
                 </a>
               </p>
 
             </Col>
 
             <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 ">
-              <h6 className="text-uppercase fw-bold ">Contact</h6>
+              <h6 className="text-uppercase fw-bold ">Contato</h6>
               <p>
                 <BsFillEnvelopeFill size={20} className="me-2"/>
                 contatorotalivre@rotalivre.com

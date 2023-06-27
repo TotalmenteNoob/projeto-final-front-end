@@ -5,9 +5,9 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/Ai";
 import { IoMdArrowRoundBack } from "react-icons/Io";
-import locadorasValidator from "@/validator/locadorasValidator";
+import carrosValidator from "@/validator/carrosValidator";
 import { mask } from "remask";
 
 const form = () => {
@@ -16,142 +16,99 @@ const form = () => {
 
     useEffect(() => {
         if (query.id) {
-            const locadoras = JSON.parse(
-                window.localStorage.getItem("locadoras")
+            const carros = JSON.parse(
+                window.localStorage.getItem("carros")
             );
-            const locadora = locadoras[query.id];
+            const carro = carros[query.id];
 
-            for (let atributo in locadora) {
-                setValue(atributo, locadora[atributo]);
+            for (let atributo in carro) {
+                setValue(atributo, carro[atributo]);
             }
         }
     }, [query.id]);
 
     function salvar(dados) {
-        const locadoras =
-            JSON.parse(window.localStorage.getItem("locadoras")) || [];
-        locadoras.splice(query.id, 1, dados);
-        window.localStorage.setItem("locadoras", JSON.stringify(locadoras));
-        push("/locadoras/");
+        const carros =
+            JSON.parse(window.localStorage.getItem("carros")) || [];
+        carros.splice(query.id, 1, dados);
+        window.localStorage.setItem("carros", JSON.stringify(carros));
+        push("/carros/");
     }
-
-    function gerarMascara(campo) {
-        const mascaras = {
-            cpf: "999.999.999-99",
-            telefone: "(99) 9999-9999",
-            cep: "99999-999",
-            // Adicione outras máscaras aqui, se necessário
-        };
-
-        return mascaras[campo] || "";
-    }
-
-    function handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        const mascara = gerarMascara(name);
-
-        setValue(name, mask(value, mascara));
-    }
-
 
     return (
-        <Pagina title="Cadastrar locadoras" titulo='Cadastrar locadora'>
+        <Pagina title='Cadastrar carros'>
             <Container>
 
                 <Form>
 
                     <Row className="mb-3">
-                        <Form.Group as={Col} className="mb-3" controlId="email">
-                            <Form.Label>Email:</Form.Label>
-                            <Form.Control isInvalid={errors.email} type="text" {...register("email", locadorasValidator.email)} />
-                            {errors.email && <small>{errors.email.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="marca">
+                            <Form.Label>Marca:</Form.Label>
+                            <Form.Control isInvalid={errors.marca} type="text" {...register("marca", carrosValidator.marca)} />
+                            {errors.marca && <small>{errors.marca.message}</small>}
                         </Form.Group>
-                        <Form.Group as={Col} className="mb-3" controlId="telefone">
-                            <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", locadorasValidator.telefone)} onChange={handleChange} />
-                            {errors.telefone && <small>{errors.telefone.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="modelo">
+                            <Form.Label>Modelo:</Form.Label>
+                            <Form.Control isInvalid={errors.modelo} type="text" {...register("modelo", carrosValidator.modelo)}  />
+                            {errors.modelo && <small>{errors.modelo.message}</small>}
                         </Form.Group>
                     </Row>
 
                     <Row className="mb-3">
-                        <Form.Group as={Col} className="mb-3" controlId="cep">
-                            <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", locadorasValidator.cep)} onChange={handleChange} />
-                            {errors.cep && <small>{errors.cep.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="quilometragem">
+                            <Form.Label>Quilometragem:</Form.Label>
+                            <Form.Control isInvalid={errors.quilometragem} type="text" {...register("quilometragem", carrosValidator.quilometragem)}  />
+                            {errors.quilometragem && <small>{errors.quilometragem.message}</small>}
                         </Form.Group>
-                        <Form.Group as={Col} className="mb-3" controlId="estado">
-                            <Form.Label>Estado:</Form.Label>
-                            <Form.Control as="select" isInvalid={errors.estado} {...register("estado", locadorasValidator.estado)}>
-                                <option selected disabled>Selecione o estado</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
+                        <Form.Group as={Col} className="mb-3" controlId="tipocarro">
+                            <Form.Label>Tipo do carro:</Form.Label>
+                            <Form.Control as="select" isInvalid={errors.tipocarro} {...register("tipocarro", carrosValidator.tipocarro)}>
+                                <option selected disabled>Selecione o tipo de carro</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="hatchback">Hatchback</option>
+                                <option value="suv">SUV</option>
+                                <option value="pickup">Pickup</option>
+                                <option value="van">Van</option>
+                                <option value="esportivo">Esportivo</option>
+                                <option value="luxo">Carro de Luxo</option>
+                                <option value="compacto">Compacto</option>
+                                <option value="conversivel">Conversível</option>
+                                <option value="utilitario">Utilitário</option>
+                                <option value="outro">Outro</option>
                             </Form.Control>
-                            {errors.estado && <small>{errors.estado.message}</small>}
+                            {errors.tipocarro && <small>{errors.tipocarro.message}</small>}
                         </Form.Group>
                     </Row>
 
                     <Row className="mb-3">
-                        <Form.Group as={Col} className="mb-3" controlId="logradouro">
-                            <Form.Label>Logradouro:</Form.Label>
-                            <Form.Control isInvalid={errors.logradouro} type="text" {...register("logradouro", locadorasValidator.logradouro)} />
-                            {errors.logradouro && <small>{errors.logradouro.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="placa">
+                            <Form.Label>Placa:</Form.Label>
+                            <Form.Control isInvalid={errors.placa} type="text" {...register("placa", carrosValidator.placa)} />
+                            {errors.placa && <small>{errors.placa.message}</small>}
                         </Form.Group>
 
-                        <Form.Group as={Col} className="mb-3" controlId="complemento">
-                            <Form.Label>Complemento:</Form.Label>
-                            <Form.Control isInvalid={errors.complemento} type="text" {...register("complemento", locadorasValidator.complemento)} />
-                            {errors.complemento && <small>{errors.complemento.message}</small>}
-                        </Form.Group>
-                    </Row>
-
-                    <Row className="mb-3">
-                        <Form.Group as={Col} className="mb-3" controlId="numero">
-                            <Form.Label>Número:</Form.Label>
-                            <Form.Control isInvalid={errors.numero} type="text" {...register("numero", locadorasValidator.numero)} />
-                            {errors.numero && <small>{errors.numero.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="ano">
+                            <Form.Label>Ano:</Form.Label>
+                            <Form.Control isInvalid={errors.ano} type="text" {...register("ano", carrosValidator.ano)} />
+                            {errors.ano && <small>{errors.ano.message}</small>}
                         </Form.Group>
 
-                        <Form.Group as={Col} className="mb-3" controlId="bairro">
-                            <Form.Label>Bairro:</Form.Label>
-                            <Form.Control isInvalid={errors.bairro} type="text" {...register("bairro", locadorasValidator.bairro)} />
-                            {errors.bairro && <small>{errors.bairro.message}</small>}
+                        <Form.Group as={Col} className="mb-3" controlId="cor">
+                            <Form.Label>Cor:</Form.Label>
+                            <Form.Control isInvalid={errors.cor} type="text" {...register("cor", carrosValidator.cor)} />
+                            {errors.cor && <small>{errors.cor.message}</small>}
                         </Form.Group>
                     </Row>
 
                     <div className='text-center'>
                         <Button variant="success" onClick={handleSubmit(salvar)}><AiOutlineCheck className='me-1' />Salvar</Button>
-                        <Link href={'/locadoras'} className="ms-2 btn btn-danger"><IoMdArrowRoundBack className='me-1' />Voltar</Link>
+                        <Link href={'/carros'} className="ms-2 btn btn-danger"><IoMdArrowRoundBack className='me-1' />Voltar</Link>
                     </div>
 
                 </Form>
-            </Container>
-        </Pagina>
+
+            </Container >
+        </Pagina >
     )
 }
 
