@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Container, Form, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BsFillTelephoneFill } from 'react-icons/Bs';
+import { GrMail } from 'react-icons/gr';
 
 const Cabecalho = () => {
   return (
@@ -18,7 +20,6 @@ const Cabecalho = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-
               <NavDropdown title="Clientes" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/clientes">Clientes cadastrados</NavDropdown.Item>
                 <NavDropdown.Item href="/clientes/cadastrar">Cadastrar novo cliente</NavDropdown.Item>
@@ -41,6 +42,14 @@ const Cabecalho = () => {
               </NavDropdown>
                   
             </Nav>
+            <Nav className="ms-auto">
+              <Nav.Link href="/sobre">Sobre-nós</Nav.Link>
+              <NavDropdown className='me-3' title="Contato" id="basic-nav-dropdown" align="center">
+                <NavDropdown.Item href="">Central de Reservas 24h <br /><BsFillTelephoneFill className='me-1' />0800 123 4567</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href=""> Dúvidas ou sugestões: <br /><GrMail className='me-1' />Fale conosco</NavDropdown.Item>
+              </NavDropdown>
+              </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

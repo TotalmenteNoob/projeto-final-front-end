@@ -7,9 +7,9 @@ const Pagina = (props) => {
     return (
         <>
             <title>{props.title}</title>
-            <Cabecalho />
-            <div className='bg-success py-3 text-white text-center mb-3'>
-                <Container>
+            <Cabecalho/>
+            <div className='bg-success py-3 text-white text-center mb-3' style={props.style}>
+                <Container className='p-1' >
                     <h1>{props.titulo}</h1>
                 </Container>
             </div>

@@ -5,7 +5,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AiOutlineCheck } from "react-icons/Ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/Io";
 import locadorasValidator from "@/validator/locadorasValidator";
 import { mask } from "remask";

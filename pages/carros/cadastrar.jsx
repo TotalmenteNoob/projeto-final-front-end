@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AiOutlineCheck } from 'react-icons/Ai';
+import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdArrowRoundBack } from 'react-icons/Io';
 import carrosValidator from '@/validator/carrosValidator';
 import { mask } from 'remask';

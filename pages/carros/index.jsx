@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Container, Table } from 'react-bootstrap'
 import { HiPencil } from 'react-icons/Hi';
-import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/Ai';
+import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
 
 const index = () => {
 

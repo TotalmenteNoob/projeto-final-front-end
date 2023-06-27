@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsFacebook, BsTwitter, BsGoogle, BsInstagram, BsGithub, BsFillEnvelopeFill } from 'react-icons/Bs';
-import { AiFillHome, AiFillPhone } from 'react-icons/Ai';
+import { AiFillPhone } from 'react-icons/ai';
 
 export default function App() {
   return (
     
-    <footer className="bg-white text-center text-lg-start text-muted">
+    <footer className="bg-white text-center text-lg-start text-muted mt-5">
       <Container>
       <section className="d-flex justify-content-center justify-content-lg-between p-4">
         <div className="me-5 d-none d-lg-block">
@@ -31,10 +31,10 @@ export default function App() {
       </Container>
       <section className="border-bottom"/>
       <section>
-        <Container className="text-center text-md-start mt-5">
+        <Container className="text-center text-md-start">
           <Row className="mt-3">
-            <Col md={3} lg={4} xl={3} className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">
+            <Col md={3} lg={4} xl={3} className="mx-auto">
+              <h6 className="text-uppercase fw-bold">
                 RotaLivre
               </h6>
               <p>
@@ -42,8 +42,8 @@ export default function App() {
               </p>
             </Col>
 
-            <Col md={2} lg={2} xl={2} className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+            <Col md={2} lg={2} xl={2} className="mx-auto ">
+              <h6 className="text-uppercase fw-bold">Products</h6>
               <p>
                 <a href="#" className="text-reset">
                   Angular
@@ -59,15 +59,11 @@ export default function App() {
                   Vue
                 </a>
               </p>
-              <p>
-                <a href="#" className="text-reset">
-                  Laravel
-                </a>
-              </p>
+
             </Col>
 
-            <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
+            <Col md={3} lg={2} xl={2} className="mx-auto ">
+              <h6 className="text-uppercase fw-bold ">Useful links</h6>
               <p>
                 <a href="#" className="text-reset">
                   Pricing
@@ -83,27 +79,22 @@ export default function App() {
                   Orders
                 </a>
               </p>
-              <p>
-                <a href="#" className="text-reset">
-                  Help
-                </a>
-              </p>
+
             </Col>
 
-            <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
+            <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 ">
+              <h6 className="text-uppercase fw-bold ">Contact</h6>
               <p>
                 <BsFillEnvelopeFill size={20} className="me-2"/>
                 contatorotalivre@rotalivre.com
               </p>
               <p>
-                <AiFillPhone size={20} className="me-2" /> 0800 4557 4895
+                <AiFillPhone size={20} className="me-1" /> 0800 123 4567
               </p>
             </Col>
           </Row>
         </Container>
       </section>
-
 
       <div className="text-center p-4 bg-body-tertiary" >
         © {new Date().getFullYear()} RotaLivre. Todos os direitos reservados.
