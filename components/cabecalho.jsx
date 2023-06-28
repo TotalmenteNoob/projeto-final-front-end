@@ -34,11 +34,11 @@ const Cabecalho = () => {
               </NavDropdown>
               <NavDropdown title="Locadoras" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/locadoras">Locadoras cadastradas</NavDropdown.Item>
-                <NavDropdown.Item href="/locadoras/cadastrar">Cadastrar novo funcionário</NavDropdown.Item>
+                <NavDropdown.Item href="/locadoras/cadastrar">Cadastrar nova locadora</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Locações" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/locacoes">Locações cadastradas</NavDropdown.Item>
-                <NavDropdown.Item href="/locacoes/cadastrar">Cadastrar novo funcionário</NavDropdown.Item>
+                <NavDropdown.Item href="/locacoes/cadastrar">Cadastrar nova locação</NavDropdown.Item>
               </NavDropdown>
                   
             </Nav>
