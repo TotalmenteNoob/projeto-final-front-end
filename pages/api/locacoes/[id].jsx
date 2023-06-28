@@ -2,7 +2,6 @@
 
 import { db } from "@/services/firebase";
 import { child, get, ref, remove, set, update } from "firebase/database";
-import { v4 } from "uuid";
 
 export default function handler(req, res) {
 
@@ -10,7 +9,7 @@ export default function handler(req, res) {
 
     if (req.method == 'GET') {
 
-        get(child(ref(db), 'carros/' + id)).then(snapshot => {
+        get(child(ref(db), 'locacoes/' + id)).then(snapshot => {
             res.status(200).json(snapshot.val())
         })
 
@@ -18,11 +17,11 @@ export default function handler(req, res) {
 
         const dados = req.body
 
-        update(ref(db, 'carros/' + id), dados) 
+        update(ref(db, 'locacoes/' + id), dados) 
         res.status(200).json(dados)
 
     } else if (req.method == 'DELETE') {
-        remove(ref(db, 'carros/' + id))
+        remove(ref(db, 'locacoes/' + id))
         res.status(200).json(id)
     }
 }

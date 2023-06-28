@@ -6,21 +6,19 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AiOutlineCheck } from 'react-icons/Ai';
+import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdArrowRoundBack } from 'react-icons/Io';
 import carrosValidator from '@/validator/carrosValidator';
 import { mask } from 'remask';
+import axios from 'axios';
 
 const form = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors }, } = useForm();
 
     function salvar(dados) {
-        const carros = JSON.parse(window.localStorage.getItem("carros")) || [];
-        carros.push(dados);
-        window.localStorage.setItem("carros", JSON.stringify(carros));
-        push("/carros/");
+        axios.post('/api/carros', dados)
+        push('/carros')
     }
 
     return (
@@ -37,7 +35,7 @@ const form = () => {
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="modelo">
                             <Form.Label>Modelo:</Form.Label>
-                            <Form.Control isInvalid={errors.modelo} type="text" {...register("modelo", carrosValidator.modelo)}/>
+                            <Form.Control isInvalid={errors.modelo} type="text" {...register("modelo", carrosValidator.modelo)} />
                             {errors.modelo && <small>{errors.modelo.message}</small>}
                         </Form.Group>
                     </Row>

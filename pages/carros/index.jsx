@@ -1,29 +1,30 @@
 import Pagina from '@/components/Pagina'
 import Rodape from '@/components/Rodape'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Container, Table } from 'react-bootstrap'
 import { HiPencil } from 'react-icons/Hi';
-import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/Ai';
+import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
+import axios from 'axios'
 
 const index = () => {
 
     const [carros, setCarros] = useState([])
 
     useEffect(() => {
-        setCarros(getAll())
+        getAll()
     }, [])
 
     function getAll() {
-        return JSON.parse(window.localStorage.getItem('carros')) || []
+        axios.get('/api/carros').then(resultado => {
+            setCarros(resultado.data)
+        })
     }
 
     function excluir(id) {
-        if (confirm('Deseja realmente excluir o registro?')) {
-            const carros = getAll()
-            carros.splice(id, 1)
-            window.localStorage.setItem('carros', JSON.stringify(carros))
-            setCarros(carros)
+        if (confirm('Deseja realmente excluir?')) {
+            axios.delete('/api/carros/' + id)
+            getAll()
         }
     }
 
@@ -49,8 +50,8 @@ const index = () => {
                             {carros.map((item, i) => (
                                 <tr key={i}>
                                     <td>
-                                        <Link href={'/carros/' + i} ><HiPencil className='text-primary' size={25} /></Link>
-                                        <AiOutlineDelete onClick={() => excluir(i)} className='text-danger ms-2' size={25} />
+                                        <Link href={'/carros/' + item.id} ><HiPencil className='text-primary' size={25} /></Link>
+                                        <AiOutlineDelete onClick={() => excluir(item.id)} className='text-danger ms-2' size={25} />
                                     </td>
                                     <td>{item.marca}</td>
                                     <td>{item.modelo}</td>

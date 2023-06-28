@@ -1,29 +1,30 @@
 import Pagina from '@/components/Pagina'
 import Rodape from '@/components/Rodape'
+import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Container, Table } from 'react-bootstrap'
 import { HiPencil } from 'react-icons/Hi';
-import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/Ai';
+import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
 
 const index = () => {
 
     const [funcionarios, setFuncionarios] = useState([])
 
     useEffect(() => {
-        setFuncionarios(getAll())
+        getAll()
     }, [])
 
     function getAll() {
-        return JSON.parse(window.localStorage.getItem('funcionarios')) || []
+        axios.get('/api/funcionarios').then(resultado => {
+            setFuncionarios(resultado.data)
+        })
     }
 
     function excluir(id) {
-        if (confirm('Deseja realmente excluir o registro?')) {
-            const funcionarios = getAll()
-            funcionarios.splice(id, 1)
-            window.localStorage.setItem('funcionarios', JSON.stringify(funcionarios))
-            setFuncionarios(funcionarios)
+        if (confirm('Deseja realmente excluir?')) {
+            axios.delete('/api/funcionarios/' + id)
+            getAll()
         }
     }
 
@@ -54,8 +55,8 @@ const index = () => {
                             {funcionarios.map((item, i) => (
                                 <tr key={i}>
                                     <td>
-                                        <Link href={'/funcionarios/' + i} ><HiPencil className='text-primary' size={25} /></Link>
-                                        <AiOutlineDelete onClick={() => excluir(i)} className='text-danger ms-2' size={25} />
+                                        <Link href={'/funcionarios/' + item.id} ><HiPencil className='text-primary' size={25} /></Link>
+                                        <AiOutlineDelete onClick={() => excluir(item.id)} className='text-danger ms-2' size={25} />
                                     </td>
                                     <td>{item.nome}</td>
                                     <td>{item.email}</td>

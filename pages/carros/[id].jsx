@@ -5,34 +5,33 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AiOutlineCheck } from "react-icons/Ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/Io";
 import carrosValidator from "@/validator/carrosValidator";
 import { mask } from "remask";
+import axios from "axios";
 
 const form = () => {
     const { push, query } = useRouter();
     const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
 
     useEffect(() => {
-        if (query.id) {
-            const carros = JSON.parse(
-                window.localStorage.getItem("carros")
-            );
-            const carro = carros[query.id];
 
-            for (let atributo in carro) {
-                setValue(atributo, carro[atributo]);
-            }
+        if (query.id) {
+            axios.get('/api/carros/' + query.id).then(resultado => {
+                const carro = resultado.data
+
+                for (let atributo in carro) {
+                    setValue(atributo, carro[atributo])
+                }
+            })
         }
-    }, [query.id]);
+
+    }, [query.id])
 
     function salvar(dados) {
-        const carros =
-            JSON.parse(window.localStorage.getItem("carros")) || [];
-        carros.splice(query.id, 1, dados);
-        window.localStorage.setItem("carros", JSON.stringify(carros));
-        push("/carros/");
+        axios.put('/api/carros/' + dados.id, dados)
+        push('/carros')
     }
 
     return (

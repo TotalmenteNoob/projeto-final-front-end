@@ -6,42 +6,20 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AiOutlineCheck } from 'react-icons/Ai';
+import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdArrowRoundBack } from 'react-icons/Io';
 import locadorasValidator from '@/validator/locadorasValidator';
 import { mask } from 'remask';
+import axios from 'axios';
 
 const form = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, setValue, formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors }, } = useForm();
 
     function salvar(dados) {
-        const locadoras = JSON.parse(window.localStorage.getItem("locadoras")) || [];
-        locadoras.push(dados);
-        window.localStorage.setItem("locadoras", JSON.stringify(locadoras));
-        push("/locadoras/");
+        axios.post('/api/locadoras', dados)
+        push('/locadoras')
     }
-
-    function gerarMascara(campo) {
-        const mascaras = {
-            cpf: "999.999.999-99",
-            telefone: "(99) 9999-9999",
-            cep: "99999-999",
-            // Adicione outras máscaras aqui, se necessário
-        };
-
-        return mascaras[campo] || "";
-    }
-
-    function handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        const mascara = gerarMascara(name);
-
-        setValue(name, mask(value, mascara));
-    }
-
 
     return (
         <Pagina title='Cadastrar locadoras'>
@@ -57,7 +35,7 @@ const form = () => {
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="telefone">
                             <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", locadorasValidator.telefone)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", locadorasValidator.telefone)} />
                             {errors.telefone && <small>{errors.telefone.message}</small>}
                         </Form.Group>
                     </Row>
@@ -65,7 +43,7 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", locadorasValidator.cep)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", locadorasValidator.cep)} />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="estado">

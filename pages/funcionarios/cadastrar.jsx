@@ -6,42 +6,20 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AiOutlineCheck } from 'react-icons/Ai';
+import { AiOutlineCheck } from 'react-icons/ai';
 import { IoMdArrowRoundBack } from 'react-icons/Io';
 import funcionariosValidator from '@/validator/funcionariosValidator';
 import { mask } from 'remask';
+import axios from 'axios';
 
 const form = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, setValue, formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors }, } = useForm();
 
     function salvar(dados) {
-        const funcionarios = JSON.parse(window.localStorage.getItem("funcionarios")) || [];
-        funcionarios.push(dados);
-        window.localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
-        push("/funcionarios/");
+        axios.post('/api/funcionarios', dados)
+        push('/funcionarios')
     }
-
-    function gerarMascara(campo) {
-        const mascaras = {
-            cpf: "999.999.999-99",
-            telefone: "(99) 9999-9999",
-            cep: "99999-999",
-            // Adicione outras máscaras aqui, se necessário
-        };
-
-        return mascaras[campo] || "";
-    }
-
-    function handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        const mascara = gerarMascara(name);
-
-        setValue(name, mask(value, mascara));
-    }
-
 
     return (
         <Pagina title='Cadastrar funcionários'>
@@ -64,7 +42,7 @@ const form = () => {
 
                         <Form.Group as={Col} className="mb-3" controlId="cpf">
                             <Form.Label>CPF:</Form.Label>
-                            <Form.Control isInvalid={errors.cpf} type="text" {...register("cpf", funcionariosValidator.cpf)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.cpf} type="text" {...register("cpf", funcionariosValidator.cpf)} />
                             {errors.cpf && <small>{errors.cpf.message}</small>}
                         </Form.Group>
                     </Row>
@@ -92,13 +70,13 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="telefone">
                             <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", funcionariosValidator.telefone)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", funcionariosValidator.telefone)} />
                             {errors.telefone && <small>{errors.telefone.message}</small>}
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", funcionariosValidator.cep)} onChange={handleChange} />
+                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", funcionariosValidator.cep)} />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
 

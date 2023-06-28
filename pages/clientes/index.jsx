@@ -1,29 +1,30 @@
 import Pagina from '@/components/Pagina'
 import Rodape from '@/components/Rodape'
+import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Container, Table } from 'react-bootstrap'
 import { HiPencil } from 'react-icons/Hi';
-import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/Ai';
+import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
 
 const index = () => {
 
     const [clientes, setClientes] = useState([])
 
     useEffect(() => {
-        setClientes(getAll())
+        getAll()
     }, [])
 
     function getAll() {
-        return JSON.parse(window.localStorage.getItem('clientes')) || []
+        axios.get('/api/clientes').then(resultado => {
+            setClientes(resultado.data)
+        })
     }
 
     function excluir(id) {
-        if (confirm('Deseja realmente excluir o registro?')) {
-            const clientes = getAll()
-            clientes.splice(id, 1)
-            window.localStorage.setItem('clientes', JSON.stringify(clientes))
-            setClientes(clientes)
+        if (confirm('Deseja realmente excluir?')) {
+            axios.delete('/api/clientes/' + id)
+            getAll()
         }
     }
 
@@ -52,8 +53,8 @@ const index = () => {
                             {clientes.map((item, i) => (
                                 <tr key={i}>
                                     <td>
-                                        <Link href={'/clientes/' + i} ><HiPencil className='text-primary' size={25} /></Link>
-                                        <AiOutlineDelete onClick={() => excluir(i)} className='text-danger ms-2' size={25} />
+                                        <Link href={'/clientes/' + item.id} ><HiPencil className='text-primary' size={25} /></Link>
+                                        <AiOutlineDelete onClick={() => excluir(item.id)} className='text-danger ms-2' size={25} />
                                     </td>
                                     <td>{item.nome}</td>
                                     <td>{item.email}</td>
