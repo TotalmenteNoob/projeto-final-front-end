@@ -14,7 +14,7 @@ import axios from 'axios';
 
 const Formulario = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
 
     const salvar = (dados) => {
         axios.post('/api/locadoras', dados);
@@ -36,6 +36,14 @@ const Formulario = () => {
         }
     };
 
+    function handleChange(event){
+        const name = event.target.name
+        const value = event.target.value
+        const mascara = event.target.getAttribute('mask')
+    
+        setValue(name, mask(value, mascara))
+      }
+
     return (
         <Pagina title="Cadastrar locadoras">
             <Container>
@@ -48,7 +56,7 @@ const Formulario = () => {
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="telefone">
                             <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register('telefone', locadorasValidator.telefone)} />
+                            <Form.Control mask="(99) 9999-9999" isInvalid={errors.telefone} type="text" {...register('telefone', locadorasValidator.telefone)} onChange={handleChange}/>
                             {errors.telefone && <small>{errors.telefone.message}</small>}
                         </Form.Group>
                     </Row>
@@ -56,11 +64,11 @@ const Formulario = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control
+                            <Form.Control mask="99999-999"
                                 isInvalid={errors.cep}
                                 type="text"
                                 {...register('cep', locadorasValidator.cep)}
-                                onBlur={(e) => buscarEndereco(e.target.value)}
+                                onBlur={(e) => buscarEndereco(e.target.value)} onChange={handleChange}
                             />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>

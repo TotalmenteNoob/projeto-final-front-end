@@ -10,14 +10,6 @@ const locadorasValidator = {
     },
     telefone: {
         required: 'O campo é obrigatório',
-        minLength: {
-            value: 11,
-            message: 'Digite um número de telefone válido',
-        },
-        maxLength: {
-            value: 11,
-            message: 'Digite um número de telefone válido',
-        },
     },
     cep: {
         required: 'O campo é obrigatório',

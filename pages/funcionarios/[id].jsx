@@ -48,12 +48,18 @@ const form = () => {
         }
     };
 
+    function handleChange(event) {
+        const name = event.target.name
+        const value = event.target.value
+        const mascara = event.target.getAttribute('mask')
+
+        setValue(name, mask(value, mascara))
+    }
+
     return (
-        <Pagina titulo='Cadastrar funcionario'>
+        <Pagina title='Cadastrar funcionários'>
             <Container>
-
-                <Form>
-
+                <Form onSubmit={handleSubmit(salvar)}>
                     <Form.Group className="mb-3" controlId="nome">
                         <Form.Label>Nome:</Form.Label>
                         <Form.Control isInvalid={errors.nome} type="text" {...register("nome", funcionariosValidator.nome)} />
@@ -69,7 +75,7 @@ const form = () => {
 
                         <Form.Group as={Col} className="mb-3" controlId="cpf">
                             <Form.Label>CPF:</Form.Label>
-                            <Form.Control isInvalid={errors.cpf} type="text" {...register("cpf", funcionariosValidator.cpf)} />
+                            <Form.Control mask="999.999.999-99" isInvalid={errors.cpf} type="text" {...register("cpf", funcionariosValidator.cpf)} onChange={handleChange}/>
                             {errors.cpf && <small>{errors.cpf.message}</small>}
                         </Form.Group>
                     </Row>
@@ -77,7 +83,7 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="matricula">
                             <Form.Label>Matrícula:</Form.Label>
-                            <Form.Control isInvalid={errors.matricula} type="text" {...register("matricula", funcionariosValidator.matricula)} />
+                            <Form.Control mask="999999999" isInvalid={errors.matricula} type="text" {...register("matricula", funcionariosValidator.matricula)} onChange={handleChange}/>
                             {errors.matricula && <small>{errors.matricula.message}</small>}
                         </Form.Group>
 
@@ -97,17 +103,17 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="telefone">
                             <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", funcionariosValidator.telefone)} />
+                            <Form.Control mask="(99) 99999-9999" isInvalid={errors.telefone} type="text" {...register("telefone", funcionariosValidator.telefone)} onChange={handleChange}/>
                             {errors.telefone && <small>{errors.telefone.message}</small>}
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control
+                            <Form.Control mask="99999-999"
                                 isInvalid={errors.cep}
                                 type="text"
                                 {...register('cep', funcionariosValidator.cep)}
-                                onBlur={(e) => buscarEndereco(e.target.value)}
+                                onBlur={(e) => buscarEndereco(e.target.value)} onChange={handleChange}
                             />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>

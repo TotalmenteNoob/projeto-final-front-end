@@ -15,8 +15,8 @@ const clientesValidator = {
     cpf: {
         required: 'O campo é obrigatório',
         maxLength: {
-            value: 11,
-            message: 'A quantidade de caracteres máxima é 11',
+            value: 14,
+            message: 'A quantidade de caracteres máxima é 14',
         },
     },
     email: {
@@ -28,14 +28,6 @@ const clientesValidator = {
     },
     telefone: {
         required: 'O campo é obrigatório',
-        minLength: {
-            value: 11,
-            message: 'Digite um número de telefone válido',
-        },
-        maxLength: {
-            value: 11,
-            message: 'Digite um número de telefone válido',
-        },
     },
     cep: {
         required: 'O campo é obrigatório',

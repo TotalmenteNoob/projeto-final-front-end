@@ -14,11 +14,19 @@ import axios from 'axios';
 
 const form = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
 
     function salvar(dados) {
         axios.post('/api/carros', dados)
         push('/carros')
+    }
+
+    function handleChange(event) {
+        const name = event.target.name
+        const value = event.target.value
+        const mascara = event.target.getAttribute('mask')
+
+        setValue(name, mask(value, mascara))
     }
 
     return (
@@ -43,7 +51,7 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="quilometragem">
                             <Form.Label>Quilometragem:</Form.Label>
-                            <Form.Control isInvalid={errors.quilometragem} type="text" {...register("quilometragem", carrosValidator.quilometragem)} />
+                            <Form.Control mask="999999" isInvalid={errors.quilometragem} type="text" {...register("quilometragem", carrosValidator.quilometragem)} onChange={handleChange}/>
                             {errors.quilometragem && <small>{errors.quilometragem.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="tipocarro">
@@ -75,13 +83,13 @@ const form = () => {
 
                         <Form.Group as={Col} className="mb-3" controlId="ano">
                             <Form.Label>Ano:</Form.Label>
-                            <Form.Control isInvalid={errors.ano} type="text" {...register("ano", carrosValidator.ano)} />
+                            <Form.Control mask="9999" isInvalid={errors.ano} type="text" {...register("ano", carrosValidator.ano)} onChange={handleChange}/>
                             {errors.ano && <small>{errors.ano.message}</small>}
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3" controlId="cor">
                             <Form.Label>Cor:</Form.Label>
-                            <Form.Control isInvalid={errors.cor} type="text" {...register("cor", carrosValidator.cor)} />
+                            <Form.Control mask="AAAAAAAAAAAAAAAAAAAAAAAAA" isInvalid={errors.cor} type="text" {...register("cor", carrosValidator.cor)} onChange={handleChange}/>
                             {errors.cor && <small>{errors.cor.message}</small>}
                         </Form.Group>
                     </Row>
