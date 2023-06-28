@@ -66,7 +66,7 @@ const index = () => {
                     </Table>
                 </Container>
             </Pagina>
-            <Rodape />
+
         </>
     )
 }

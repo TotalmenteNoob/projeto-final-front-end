@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const locadorasValidator = {
     email: {
         required: 'O campo é obrigatório',
@@ -19,13 +21,20 @@ const locadorasValidator = {
     },
     cep: {
         required: 'O campo é obrigatório',
-        minLength: {
-            value: 11,
-            message: 'Digite um cep válido',
-        },
-        maxLength: {
-            value: 11,
-            message: 'Digite cep válido',
+        validate: {
+            validarCEP: async (cep) => {
+                try {
+                    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+                    const endereco = response.data;
+                    if (endereco.erro) {
+                        return 'CEP inválido';
+                    }
+                    // Retorna uma string vazia se o CEP for válido
+                } catch (error) {
+                    console.log(error);
+                    return 'Erro ao validar o CEP'; // Retorna uma mensagem de erro caso ocorra algum problema na requisição
+                }
+            },
         },
     },
     logradouro: {

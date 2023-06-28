@@ -34,6 +34,21 @@ const form = () => {
         push('/locadoras')
     }
 
+    const buscarEndereco = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const endereco = response.data;
+            if (!endereco.erro) {
+                setValue('estado', endereco.uf);
+                setValue('logradouro', endereco.logradouro);
+                setValue('complemento', endereco.complemento);
+                setValue('bairro', endereco.bairro);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Pagina title="Cadastrar locadoras" titulo='Cadastrar locadora'>
             <Container>
@@ -56,7 +71,12 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", locadorasValidator.cep)} />
+                            <Form.Control
+                                isInvalid={errors.cep}
+                                type="text"
+                                {...register('cep', locadorasValidator.cep)}
+                                onBlur={(e) => buscarEndereco(e.target.value)}
+                            />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="estado">

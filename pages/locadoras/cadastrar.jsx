@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagina from '@/components/Pagina';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
@@ -12,30 +12,43 @@ import locadorasValidator from '@/validator/locadorasValidator';
 import { mask } from 'remask';
 import axios from 'axios';
 
-const form = () => {
+const Formulario = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
 
-    function salvar(dados) {
-        axios.post('/api/locadoras', dados)
-        push('/locadoras')
-    }
+    const salvar = (dados) => {
+        axios.post('/api/locadoras', dados);
+        push('/locadoras');
+    };
+
+    const buscarEndereco = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const endereco = response.data;
+            if (!endereco.erro) {
+                setValue('estado', endereco.uf);
+                setValue('logradouro', endereco.logradouro);
+                setValue('complemento', endereco.complemento);
+                setValue('bairro', endereco.bairro);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
-        <Pagina title='Cadastrar locadoras'>
+        <Pagina title="Cadastrar locadoras">
             <Container>
-
                 <Form>
-
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="email">
                             <Form.Label>Email:</Form.Label>
-                            <Form.Control isInvalid={errors.email} type="text" {...register("email", locadorasValidator.email)} />
+                            <Form.Control isInvalid={errors.email} type="text" {...register('email', locadorasValidator.email)} />
                             {errors.email && <small>{errors.email.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="telefone">
                             <Form.Label>Telefone:</Form.Label>
-                            <Form.Control isInvalid={errors.telefone} type="text" {...register("telefone", locadorasValidator.telefone)} />
+                            <Form.Control isInvalid={errors.telefone} type="text" {...register('telefone', locadorasValidator.telefone)} />
                             {errors.telefone && <small>{errors.telefone.message}</small>}
                         </Form.Group>
                     </Row>
@@ -43,12 +56,17 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", locadorasValidator.cep)} />
+                            <Form.Control
+                                isInvalid={errors.cep}
+                                type="text"
+                                {...register('cep', locadorasValidator.cep)}
+                                onBlur={(e) => buscarEndereco(e.target.value)}
+                            />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3" controlId="estado">
                             <Form.Label>Estado:</Form.Label>
-                            <Form.Control as="select" isInvalid={errors.estado} {...register("estado", locadorasValidator.estado)}>
+                            <Form.Control as="select" isInvalid={errors.estado} {...register('estado', locadorasValidator.estado)}>
                                 <option selected disabled>Selecione o estado</option>
                                 <option value="AC">Acre</option>
                                 <option value="AL">Alagoas</option>
@@ -85,13 +103,13 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="logradouro">
                             <Form.Label>Logradouro:</Form.Label>
-                            <Form.Control isInvalid={errors.logradouro} type="text" {...register("logradouro", locadorasValidator.logradouro)} />
+                            <Form.Control isInvalid={errors.logradouro} type="text" {...register('logradouro', locadorasValidator.logradouro)} />
                             {errors.logradouro && <small>{errors.logradouro.message}</small>}
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3" controlId="complemento">
                             <Form.Label>Complemento:</Form.Label>
-                            <Form.Control isInvalid={errors.complemento} type="text" {...register("complemento", locadorasValidator.complemento)} />
+                            <Form.Control isInvalid={errors.complemento} type="text" {...register('complemento', locadorasValidator.complemento)} />
                             {errors.complemento && <small>{errors.complemento.message}</small>}
                         </Form.Group>
                     </Row>
@@ -99,27 +117,26 @@ const form = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} className="mb-3" controlId="numero">
                             <Form.Label>Número:</Form.Label>
-                            <Form.Control isInvalid={errors.numero} type="text" {...register("numero", locadorasValidator.numero)} />
+                            <Form.Control isInvalid={errors.numero} type="text" {...register('numero', locadorasValidator.numero)} />
                             {errors.numero && <small>{errors.numero.message}</small>}
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3" controlId="bairro">
                             <Form.Label>Bairro:</Form.Label>
-                            <Form.Control isInvalid={errors.bairro} type="text" {...register("bairro", locadorasValidator.bairro)} />
+                            <Form.Control isInvalid={errors.bairro} type="text" {...register('bairro', locadorasValidator.bairro)} />
                             {errors.bairro && <small>{errors.bairro.message}</small>}
                         </Form.Group>
                     </Row>
 
-                    <div className='text-center'>
-                        <Button variant="success" onClick={handleSubmit(salvar)}><AiOutlineCheck className='me-1' />Salvar</Button>
-                        <Link href={'/locadoras'} className="ms-2 btn btn-danger"><IoMdArrowRoundBack className='me-1' />Voltar</Link>
+                    <div className="text-center">
+                        <Button variant="success" onClick={handleSubmit(salvar)}><AiOutlineCheck className="me-1" />Salvar</Button>
+                        <Link href={'/locadoras'} className="ms-2 btn btn-danger"><IoMdArrowRoundBack className="me-1" />Voltar</Link>
                     </div>
 
                 </Form>
+            </Container>
+        </Pagina>
+    );
+};
 
-            </Container >
-        </Pagina >
-    )
-}
-
-export default form
+export default Formulario;

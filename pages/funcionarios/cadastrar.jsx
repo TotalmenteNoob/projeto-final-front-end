@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagina from '@/components/Pagina';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { AiOutlineCheck } from 'react-icons/ai';
@@ -12,21 +11,33 @@ import funcionariosValidator from '@/validator/funcionariosValidator';
 import { mask } from 'remask';
 import axios from 'axios';
 
-const form = () => {
+const FormPage = () => {
     const { push } = useRouter();
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
 
     function salvar(dados) {
-        axios.post('/api/funcionarios', dados)
-        push('/funcionarios')
+        axios.post('/api/funcionarios', dados);
+        push('/funcionarios');
     }
+
+    const buscarEndereco = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const endereco = response.data;
+            if (!endereco.erro) {
+                setValue('logradouro', endereco.logradouro);
+                setValue('complemento', endereco.complemento);
+                setValue('bairro', endereco.bairro);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <Pagina title='Cadastrar funcionários'>
             <Container>
-
-                <Form>
-
+                <Form onSubmit={handleSubmit(salvar)}>
                     <Form.Group className="mb-3" controlId="nome">
                         <Form.Label>Nome:</Form.Label>
                         <Form.Control isInvalid={errors.nome} type="text" {...register("nome", funcionariosValidator.nome)} />
@@ -76,7 +87,12 @@ const form = () => {
 
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", funcionariosValidator.cep)} />
+                            <Form.Control
+                                isInvalid={errors.cep}
+                                type="text"
+                                {...register('cep', funcionariosValidator.cep)}
+                                onBlur={(e) => buscarEndereco(e.target.value)}
+                            />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
 
@@ -108,15 +124,13 @@ const form = () => {
                     </Row>
 
                     <div className='text-center'>
-                        <Button variant="success" onClick={handleSubmit(salvar)}><AiOutlineCheck className='me-1' />Salvar</Button>
+                        <Button variant="success" type="submit"><AiOutlineCheck className='me-1' />Salvar</Button>
                         <Link href={'/funcionarios'} className="ms-2 btn btn-danger"><IoMdArrowRoundBack className='me-1' />Voltar</Link>
                     </div>
-
                 </Form>
-
             </Container>
         </Pagina>
-    )
-}
+    );
+};
 
-export default form
+export default FormPage;

@@ -1,5 +1,5 @@
 const locacoesValidator = {
-    nome: {
+    custo: {
         required: 'O campo é obrigatório',
         minLength: {
             value: 3,

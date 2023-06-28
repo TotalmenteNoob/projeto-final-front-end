@@ -34,6 +34,20 @@ const form = () => {
         push('/clientes')
     }
 
+    const buscarEndereco = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const endereco = response.data;
+            if (!endereco.erro) {
+                setValue('logradouro', endereco.logradouro);
+                setValue('complemento', endereco.complemento);
+                setValue('bairro', endereco.bairro);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Pagina title="Cadastrar clientes" titulo='Cadastrar cliente'>
             <Container>
@@ -75,7 +89,12 @@ const form = () => {
 
                         <Form.Group as={Col} className="mb-3" controlId="cep">
                             <Form.Label>Cep:</Form.Label>
-                            <Form.Control isInvalid={errors.cep} type="text" {...register("cep", clientesValidator.cep)} />
+                            <Form.Control
+                                isInvalid={errors.cep}
+                                type="text"
+                                {...register('cep', clientesValidator.cep)}
+                                onBlur={(e) => buscarEndereco(e.target.value)}
+                            />
                             {errors.cep && <small>{errors.cep.message}</small>}
                         </Form.Group>
                     </Row>
